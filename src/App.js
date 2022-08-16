@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const workTime = 25;
-  const breakTime = 5;
+  // const workTime = 25;
+  // const breakTime = 5;
+  const [workTime, setWorkTime] = useState(0);
+  const [breakTime, setBreakTime] = useState(0);
   const [cycles, setCycles] = useState(0);
   const [work, setWork] = useState(true);
   const [time, setTime] = useState(0);
@@ -15,7 +17,7 @@ function App() {
   useEffect(() => {
     if (time === -1 && minutes === 0) {
       clearInterval(intervalId);
-      setMinutes(work ? breakTime : workTime);
+      setMinutes(work ? workTime: breakTime);
       setWork(!work);
       setTime(0);
       startTimer();
@@ -31,7 +33,7 @@ function App() {
     if (cycles !== 0) {
       const interval = setInterval(() => {
         setTime((time) => time - 1);
-      }, 1000);
+      }, 10);
       setIntervalId(interval);
       setCycles((cycles) => cycles - 1);
       return () => clearInterval(interval);
@@ -45,8 +47,34 @@ function App() {
     <div className="App">
       <header
         className="App-header"
-        style={{ backgroundColor: work ? "#77DD66" : "#FF2626" }}
+        style={{ backgroundColor: work ? "#FF2626" : "#77DD66"}}
       >
+          <div>
+            <label for="workIP" />
+            <input
+              id="workIP"
+              placeholder="Enter Worktime"
+              onInput={(e) =>
+                setWorkTime(
+                  e.target.value === "" ? 0 : parseInt(e.target.value)
+                )
+              }
+            />
+            <br />
+          </div>
+          <div>
+            <label for="breakIP" />
+            <input
+              id="breakIP"
+              placeholder="Enter Breaktime"
+              onInput={(e) =>
+                setBreakTime(
+                  e.target.value === "" ? 0 : parseInt(e.target.value)
+                )
+              }
+            />
+            <br />
+          </div>
         <p style={{ display: clockStarted ? "none" : "block" }}>
           <label for="cycleIP" />
           <input
@@ -65,9 +93,9 @@ function App() {
               startTimer();
             }}
             style={{
-              backgroundColor: work ? "#77DD66" : "#FF2626",
-              boxShadow: `7px 7px 15px ${work ? "#58a44b" : "#bd1c1c"},
-                         -7px -7px 15px ${work ? "#96ff81" : "#ff3030"}`,
+              backgroundColor: work ? "#FF2626" : "#77DD66",
+              boxShadow: `7px 7px 15px ${work ? "#bd1c1c" : "#58a44b" },
+                         -7px -7px 15px ${work ? "#ff3030" : "#96ff81"}`,
             }}
           >
             Start the timer
@@ -81,12 +109,12 @@ function App() {
         <p
           id="statusPara"
           style={{
-            backgroundColor: work ? "#77DD66" : "#FF2626",
-            boxShadow: `22px 22px 44px ${work ? "#58a44b" : "#bd1c1c"},
-                       -22px -22px 44px ${work ? "#96ff81" : "#ff3030"}`,
+            backgroundColor: work ? "#FF2626" : "#77DD66",
+            boxShadow: `22px 22px 44px ${work ? "#bd1c1c" : "#58a44b"},
+                       -22px -22px 44px ${work ? "#ff3030" : "#96ff81"}`,
           }}
         >
-          {work ? "WORK" : "BREAK"} TIME
+          {work ? "BREAK" : "WORK"} TIME
         </p>
       </header>
     </div>
